@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Canvas tutorial</title>
+
+    <!-- <script type="text/javascript">
+      function draw(){
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext){
+          var ctx = canvas.getContext('3d');
+        }
+      }
+    </script> -->
+    <style type="text/css">
+      canvas { border: 1px solid black; }
+    </style>
+  </head>
+  <!-- <body onload="draw();"> -->
+  <body>
+        <canvas id="tutorial"> current stock price: $3.15 +0.15</canvas>
+  
+  
+  
+ 
+    <script>
+        var canvas = document.getElementById('tutorial');
+        /*canvas提供了三种方法绘制矩形左上角为 x-y(0-0)： x  x坐标  y  y 坐标  宽高属性
+        fillRect(x, y, width, height)
+        绘制一个填充的矩形
+        strokeRect(x, y, width, height)
+        绘制一个矩形的边框
+        clearRect(x, y, width, height)
+        清除指定矩形区域，让清除部分完全透明。*/
+        if (canvas.getContext){
+            var ctx = canvas.getContext('2d');
+            console.log("支持canvas标签");
+            ctx.fillStyle = "rgb(200,0,0)";
+            ctx.fillRect (10, 10, 55, 50);
+
+            ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+            ctx.fillRect (30, 30, 55, 50);
+        } else {
+            console.log("不支持canvas标签");
+        }
+    </script>    
+  </body>
+
+
+
+</html>
