@@ -17,12 +17,29 @@
   <!-- <body onload="draw();"> -->
   <body>
         <canvas id="tutorial"> current stock price: $3.15 +0.15</canvas>
-  
-  
-  
- 
+        <br>
+        <canvas id="draw"></canvas>
+        <br>
+        <canvas id="smile" width="500" height="500"></canvas>
+        <br>
+        <canvas id="sanjiao"  width="500" height="500" ></canvas>
+        <br>
+        <canvas id="arc"  width="500" height="500" ></canvas>
+        <br/>
+        <canvas id="quadra"  width="500" height="500" ></canvas>
+        <br/>
+        <canvas id="canvas"  width="500" height="500" ></canvas>
+        <br>
+        <canvas id="moveca" width="500" height="500"></canvas>
+
     <script>
         var canvas = document.getElementById('tutorial');
+        var draw = document.getElementById('draw');
+        var sjcanvas = document.getElementById('sanjiao');
+        var smilecanvas = document.getElementById('smile');
+        var arccanvas = document.getElementById('arc');
+        var quadracanvas = document.getElementById('quadra');
+        var movecanvas = document.getElementById('moveca');
         /*canvas提供了三种方法绘制矩形左上角为 x-y(0-0)： x  x坐标  y  y 坐标  宽高属性
         fillRect(x, y, width, height)
         绘制一个填充的矩形
@@ -32,16 +49,284 @@
         清除指定矩形区域，让清除部分完全透明。*/
         if (canvas.getContext){
             var ctx = canvas.getContext('2d');
+            var d = draw.getContext('2d');
+            var sj = sjcanvas.getContext('2d');
+            var smile = smilecanvas.getContext('2d');
+            var arc = arccanvas.getContext('2d');
+            var quadra = quadracanvas.getContext('2d');
+            var moveca = movecanvas.getContext('2d');
             console.log("支持canvas标签");
             ctx.fillStyle = "rgb(200,0,0)";
             ctx.fillRect (10, 10, 55, 50);
 
             ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
             ctx.fillRect (30, 30, 55, 50);
+
+            // d.fillStyle = "rgb(200,20,10)";
+            // d.fillRect(10, 10, 55, 50);
+
+            // d.strokeRect(30,30,55,50);
+            // d.fillStyle = "rgb(200,20,10)";
+            
+            // 清空 ，把区域给置透明
+            // d.clearRect(0 , 0 ,60,60);
+
+
+            // 
+            d.fillStyle = "rgb(200,0,0)";
+            d.fillRect(25, 25, 100, 100);
+            d.clearRect(49, 49, 51, 51);
+
+            d.fillStyle = "rgb(20, 20, 122)";
+            d.fillRect(50, 50, 50, 50);
+            // moveTo(x, y) 将笔触移动到指定的坐标x以及y上。
+            //当canvas初始化或者beginPath()调用后，
+            //你通常会使用moveTo()函数设置起点。
+            //我们也能够使用moveTo()绘制一些不连续的路径。
+            sj.beginPath();
+            sj.moveTo(75,50);
+            sj.lineTo(100,75);
+            sj.lineTo(100,25);
+            sj.fill();
+
+            // 画笑脸
+            // 开始标志
+            smile.beginPath();
+            // 先画一个大圆
+            //arc(x, y, radius, startAngle, endAngle, anticlockwise)
+            //画一个以（x,y）为圆心的以radius为半径的圆弧（圆），
+            //从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针）来生成。
+            smile.arc(75,75,50,0,Math.PI*2,true);
+            smile.moveTo(110,75);//  停笔的地方
+            //在画一个口
+            smile.arc(75,75,35,0,Math.PI,false);
+            smile.moveTo(65,65);//  停笔的地方
+            // 左眼 画一个半径为5 的小圆圈，在x 60  y 65 的位置上 
+            smile.arc(60,65,5,0,Math.PI*2,false);
+            smile.moveTo(95,65);//  停笔的地方
+            // 右眼 画一个半径为5 的小圆圈，在x 90  y 65 的位置上 
+            smile.arc(90,65,5,0,Math.PI*2,false);
+
+            smile.stroke();
+
+            // 画直线
+            smile.beginPath();
+            smile.moveTo(130,130);
+            smile.lineTo(180,180);
+            smile.stroke();
+
+            // 画三角形，填充和不填充
+            //填充
+            sj.beginPath();
+            // 从 x ,y= 100 d 位置开始画
+            sj.moveTo(100,100);
+            // x  下移85 y 右移 50
+            sj.lineTo(185,150);
+            // x 不变   y 上移100
+            sj.lineTo(185,50);
+            // 填充
+            sj.fill();
+
+            // 不填充
+            //这里从调用beginPath()函数准备绘制一个新的形状路径开始。
+            //然后使用moveTo()函数移动到目标位置上。
+            //然后下面，两条线段绘制后构成三角形的两条边。
+            sj.beginPath();
+            sj.moveTo(185,300);
+            sj.lineTo(50,300);
+            sj.lineTo(185,150);
+            /*你会注意到填充与描边三角形步骤有所不同。
+            正如上面所提到的，因为路径使用填充（fill）时，
+            路径自动闭合，使用描边（stroke）则不会闭合路径。
+            如果没有添加闭合路径closePath()到描述三角形函数中，
+            则只绘制了两条线段，并不是一个完整的三角形。*/
+            sj.closePath();
+            sj.stroke();
+
+
+
+            /*===============
+                    圆形 arc
+            这里详细介绍一下arc方法，该方法有六个参数：
+            x,y为绘制圆弧所在圆上的圆心坐标。radius为半径。
+            startAngle以及endAngle参数用弧度定义了开始以及结束的弧度。
+            这些都是以x轴为基准。参数anticlockwise为一个布尔值。
+            为true时，是逆时针方向，否则顺时针方向。
+            注意：arc()函数中表示角的单位是弧度，不是角度。角度与弧度的js表达式:
+            弧度=(Math.PI/180)*角度。
+            ==================*/
+            
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 3; j++) {
+                    // 每次循环重新画
+                    arc.beginPath();
+                    let x = 25+ j*50;  // x坐标
+                    let y = 25+ i*50;  // y坐标
+
+                    let radius = 20;   //圆弧半径
+                    let startAngle = 0;//开始点
+                    let endAngle = Math.PI + (Math.PI*j)/2; // 结束点
+
+                    let anticlockwise = i%2 == 0? false:true; //顺时针或者逆时针
+
+                    arc.arc(x,y,radius,startAngle,endAngle,anticlockwise);  
+
+                    // 填充还是画线
+                    if(i > 1 ){
+                      arc.fill();
+                    }else{
+                      arc.stroke();
+                    }
+                }
+            }
+
+            /*==============
+             贝塞尔曲线 
+             quadraticCurveTo(cp1x, cp1y, x, y)
+            绘制二次贝塞尔曲线，cp1x,cp1y为一个控制点，x,y为结束点。
+            bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+            绘制三次贝塞尔曲线，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二，x,y为结束点。
+
+            ====================*/
+            // 二次
+            quadra.beginPath();
+            quadra.moveTo(75,25);
+            quadra.quadraticCurveTo(25,25,25,62.5);
+            quadra.quadraticCurveTo(25,100,50,100);
+            quadra.quadraticCurveTo(50,120,30,125);
+            quadra.quadraticCurveTo(60,120,65,100);
+            quadra.quadraticCurveTo(125,100,125,62.5);
+            quadra.quadraticCurveTo(125,25,75,25);
+            quadra.stroke();
+
+            // 三次
+            quadra.beginPath();
+            quadra.moveTo(175,140);
+            quadra.bezierCurveTo(175,137,170,125,150,125);
+            quadra.bezierCurveTo(120,125,120,162.5,120,162.5);
+            quadra.bezierCurveTo(120,180,140,202,175,220);
+            quadra.bezierCurveTo(210,202,230,180,230,162.5);
+            quadra.bezierCurveTo(230,162.5,230,125,200,125);
+            quadra.bezierCurveTo(185,125,175,137,175,140);
+            quadra.fill();
+
+
+            //Path 2D
+            /*这条路径将先移动到点 (M10 10) 
+            然后再水平移动80个单位(h 80)，
+            然后下移80个单位 (v 80)，
+            接着左移80个单位 (h -80)
+             (z)。*/
+              var num = 0;
+              var p ;
+            var  time = setInterval(function(){
+              num += 10;
+              moveca.clearRect(0,0,movecanvas.width,movecanvas.height);
+               p  = new Path2D('M'+num+' 10 h 80 v 80 h -80 Z');
+              moveca.fill(p);
+            },1000);
+
+            setTimeout(function() {
+              clearInterval(time);
+            }, 10000);
+
         } else {
             console.log("不支持canvas标签");
         }
+
+
+        
+
     </script>    
+
+    <script>
+      
+          // 封装的一个用于绘制圆角矩形的函数.
+
+          function roundedRect(ctx,x,y,width,height,radius){
+            ctx.beginPath();
+            ctx.moveTo(x,y+radius);
+            ctx.lineTo(x,y+height-radius);
+            ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+            ctx.lineTo(x+width-radius,y+height);
+            ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+            ctx.lineTo(x+width,y+radius);
+            ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+            ctx.lineTo(x+radius,y);
+            ctx.quadraticCurveTo(x,y,x,y+radius);
+            ctx.stroke();
+          }
+
+          var canvas = document.getElementById('canvas');
+          if (canvas.getContext){
+          var ctx = canvas.getContext('2d');
+
+          roundedRect(ctx,12,12,250,150,15);
+          roundedRect(ctx,19,19,250,150,9);
+          roundedRect(ctx,53,53,49,33,10);
+          roundedRect(ctx,53,119,49,16,6);
+          roundedRect(ctx,135,53,49,33,10);
+          roundedRect(ctx,135,119,49,16,10);
+
+          ctx.beginPath();
+          ctx.arc(37,37,13,Math.PI/7,-Math.PI/7,false);
+          ctx.lineTo(31,37);
+          ctx.fill();
+
+          for(var i=0;i<8;i++){
+          ctx.fillRect(51+i*16,35,4,4);
+          }
+
+          for(i=0;i<6;i++){
+          ctx.fillRect(115,51+i*16,4,4);
+          }
+
+          for(i=0;i<8;i++){
+          ctx.fillRect(51+i*16,99,4,4);
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(83,116);
+          ctx.lineTo(83,102);
+          ctx.bezierCurveTo(83,94,89,88,97,88);
+          ctx.bezierCurveTo(105,88,111,94,111,102);
+          ctx.lineTo(111,116);
+          ctx.lineTo(106.333,111.333);
+          ctx.lineTo(101.666,116);
+          ctx.lineTo(97,111.333);
+          ctx.lineTo(92.333,116);
+          ctx.lineTo(87.666,111.333);
+          ctx.lineTo(83,116);
+          ctx.fill();
+
+          ctx.fillStyle = "white";
+          ctx.beginPath();
+          ctx.moveTo(91,96);
+          ctx.bezierCurveTo(88,96,87,99,87,101);
+          ctx.bezierCurveTo(87,103,88,106,91,106);
+          ctx.bezierCurveTo(94,106,95,103,95,101);
+          ctx.bezierCurveTo(95,99,94,96,91,96);
+          ctx.moveTo(103,96);
+          ctx.bezierCurveTo(100,96,99,99,99,101);
+          ctx.bezierCurveTo(99,103,100,106,103,106);
+          ctx.bezierCurveTo(106,106,107,103,107,101);
+          ctx.bezierCurveTo(107,99,106,96,103,96);
+          ctx.fill();
+
+          ctx.fillStyle = "black";
+          ctx.beginPath();
+          ctx.arc(101,102,2,0,Math.PI*2,true);
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(89,102,2,0,Math.PI*2,true);
+          ctx.fill();
+          }
+          
+
+          
+
+    </script>
   </body>
 
 
