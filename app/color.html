@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>Canvas 色彩 Colors</title>
+
+    <style type="text/css">
+
+    </style>
+  </head>
+  <body>
+    <p>矩形颜色</p>
+    <canvas id="color" width="500" height="500"></canvas>
+    <p>圆心</p>
+    <div style="width: 100px; height: 10px; background-color: rgb(0, 255, 255)" ></div>
+    <canvas id="circlecolor" width="500" height="500"></canvas>
+    <div>
+        透明度 Transparency<br/>
+        通过设置 globalAlpha 属性或者使用一个半透明颜色作为轮廓或填充的样式。<br>
+        globalAlpha = transparencyValue<br>
+        这个属性影响到 canvas 里所有图形的透明度，有效的值范围是 0.0 （完全透明）到 1.0（完全不透明），默认是 1.0<br>
+        在这个例子里，将用四色格作为背景，设置 globalAlpha 为 0.2 后，在上面画一系列半径递增的半透明圆。<br>
+        最终结果是一个径向渐变效果。圆叠加得越更多，原先所画的圆的透明度会越低。<br>
+        通过增加循环次数，画更多的圆，背景图的中心部分会完全消失。<br>
+        <canvas id="tran" width="500" height="500"></canvas><br>
+因为 strokeStyle 和 fillStyle 属性接受符合 CSS 3 规范的颜色值，那我们可以用下面的写法来设置具有透明度的颜色。<br>
+rgba() 方法与 rgb() 方法类似，就多了一个用于设置色彩透明度的参数。它的有效范围是从 0.0（完全透明）到 1.0（完全不透明）。
+    </div>
+    <canvas id="tran" width="500" height="500"></canvas>
+    <div>
+        <h4>rgba() 示例节</h4>
+        第二个例子和上面那个类似，不过不是画圆，而是画矩形。<br/>
+        这里还可以看出，rgba() 可以分别设置轮廓和填充样式，因而具有更好的可操作性和使用灵活性。
+    </div>
+    <canvas id="juxing" width="300" height="200"></canvas>
+    <script>
+        let ctx = document.getElementById('color').getContext('2d');
+        let cir = document.getElementById('circlecolor').getContext('2d');
+        let trancanvas = document.getElementById('tran').getContext('2d');
+        let juxingcanvas = document.getElementById('juxing').getContext('2d');
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                ctx.fillStyle = 'rgb('+Math.floor(255-22.5 * i)+','+Math.floor(255 - 22.5 * j)+',0)';
+                ctx.fillRect(j*25,i*25,35,35);
+            }            
+        } 
+
+        for (let i = 0; i < 20; i++) {
+            for (let j = 0; j < 20; j++) {
+                for (let k = 0; k < 20; k++) {
+                    cir.strokeStyle = 'rgb('+Math.floor(12*k)+','+Math.floor(12* i)
+                    +','+Math.floor(12 * j)+')';
+                    cir.beginPath();
+                    cir.arc(10.5+j*21 ,10.5 +i*21,10,0,Math.PI*2,true);
+                    cir.stroke();
+                    // cir.fill();
+                }
+            }
+            
+        }
+
+        // 透明度
+        // 画背景
+        trancanvas.fillStyle = '#001fff';
+        trancanvas.fillRect(0,0,175,175);
+        // trancanvas.fillStyle = '#030e0e';
+        // trancanvas.fillRect(175,0,175,175);
+        // trancanvas.fillStyle = '#09F';
+        // trancanvas.fillRect(0,175,175,175);
+        trancanvas.fillStyle = '#F30';
+        trancanvas.fillRect(175,175,175,175);
+
+        // 设置透明度值
+        trancanvas.fillStyle = '#FFF';
+        trancanvas.globalAlpha = 0.2;
+
+        // 画半透明圆
+        for (var i=0;i<7;i++){
+            // trancanvas.globalAlpha += 0.1;
+            trancanvas.beginPath();
+            trancanvas.arc(175,175,24+25*i,0,Math.PI*2,true);
+            trancanvas.fill();
+        }
+
+
+        //畫矩形透明度
+        juxingcanvas.fillStyle = 'rgb(255,221,0)';
+        juxingcanvas.fillRect(0,0,150,50);
+
+        juxingcanvas.fillStyle = 'rgb(102,201,0)';
+        juxingcanvas.fillRect(0,50,150,50);
+
+        juxingcanvas.fillStyle = 'rgb(0,153,255)';
+        juxingcanvas.fillRect(0,100,150,50);
+
+        juxingcanvas.fillStyle = 'rgb(255,221,0)';
+        juxingcanvas.fillRect(0,150,150,50);
+
+        for (let i = 0; i < 10; i++) {
+            juxingcanvas.fillStyle = 'rgba(255,255,255,'+(i+1)/10+')';
+            for (let j = 0; j < 4; j++) {
+                juxingcanvas.fillRect(5+i*14,j*50,14,50);              
+            }            
+        }
+
+    </script>
+  </body>
+</html>
